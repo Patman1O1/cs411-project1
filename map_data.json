@@ -1,0 +1,211 @@
+{
+  "region": "Illinois, USA",
+  "total_cities": 22,
+  "total_edges": 35,
+  "locations": {
+    "Chicago, IL": {
+      "lat": 41.8755616,
+      "lon": -87.6244212
+    },
+    "Aurora, IL": {
+      "lat": 41.7571701,
+      "lon": -88.3147539
+    },
+    "Naperville, IL": {
+      "lat": 41.7728699,
+      "lon": -88.1479278
+    },
+    "Joliet, IL": {
+      "lat": 41.5263603,
+      "lon": -88.0840212
+    },
+    "Rockford, IL": {
+      "lat": 42.2713945,
+      "lon": -89.093966
+    },
+    "Springfield, IL": {
+      "lat": 39.7990175,
+      "lon": -89.6439575
+    },
+    "Peoria, IL": {
+      "lat": 40.6938609,
+      "lon": -89.5891008
+    },
+    "Elgin, IL": {
+      "lat": 42.03726,
+      "lon": -88.2810994
+    },
+    "Waukegan, IL": {
+      "lat": 42.3602273,
+      "lon": -87.8318164
+    },
+    "Champaign, IL": {
+      "lat": 40.1164841,
+      "lon": -88.2430932
+    },
+    "Bloomington, IL": {
+      "lat": 40.4797828,
+      "lon": -88.9939147
+    },
+    "Decatur, IL": {
+      "lat": 39.8454163,
+      "lon": -88.9524151
+    },
+    "Evanston, IL": {
+      "lat": 42.0470043,
+      "lon": -87.6846053
+    },
+    "Schaumburg, IL": {
+      "lat": 42.0333608,
+      "lon": -88.083406
+    },
+    "Arlington Heights, IL": {
+      "lat": 42.0811563,
+      "lon": -87.9802164
+    },
+    "Bolingbrook, IL": {
+      "lat": 41.7003302,
+      "lon": -88.0717708
+    },
+    "Palatine, IL": {
+      "lat": 42.1105502,
+      "lon": -88.0434304
+    },
+    "Skokie, IL": {
+      "lat": 42.0262972,
+      "lon": -87.7521069
+    },
+    "Des Plaines, IL": {
+      "lat": 42.0415823,
+      "lon": -87.8873916
+    },
+    "Orland Park, IL": {
+      "lat": 41.630663,
+      "lon": -87.8536288
+    },
+    "Kankakee, IL": {
+      "lat": 41.1253903,
+      "lon": -87.848682
+    },
+    "DeKalb, IL": {
+      "lat": 41.8903447,
+      "lon": -88.7713953
+    }
+  },
+  "graph": {
+    "Chicago, IL": {
+      "Evanston, IL": 14.1,
+      "Skokie, IL": 14.38,
+      "Des Plaines, IL": 20.1,
+      "Naperville, IL": 30.93,
+      "Joliet, IL": 44.54,
+      "Orland Park, IL": 26.33
+    },
+    "Aurora, IL": {
+      "Naperville, IL": 9.31,
+      "DeKalb, IL": 30.59,
+      "Joliet, IL": 22.48
+    },
+    "Naperville, IL": {
+      "Chicago, IL": 30.93,
+      "Schaumburg, IL": 26.31,
+      "Aurora, IL": 9.31,
+      "Bolingbrook, IL": 9.23
+    },
+    "Joliet, IL": {
+      "Chicago, IL": 44.54,
+      "Aurora, IL": 22.48,
+      "Bolingbrook, IL": 13.11,
+      "Orland Park, IL": 19.69,
+      "Kankakee, IL": 35.48,
+      "Bloomington, IL": 95.12
+    },
+    "Rockford, IL": {
+      "DeKalb, IL": 45.9,
+      "Elgin, IL": 48.5,
+      "Peoria, IL": 140.71
+    },
+    "Springfield, IL": {
+      "Bloomington, IL": 65.77,
+      "Peoria, IL": 72.03,
+      "Decatur, IL": 38.71
+    },
+    "Peoria, IL": {
+      "Rockford, IL": 140.71,
+      "Bloomington, IL": 39.58,
+      "Springfield, IL": 72.03
+    },
+    "Elgin, IL": {
+      "Schaumburg, IL": 14.5,
+      "DeKalb, IL": 35.41,
+      "Rockford, IL": 48.5
+    },
+    "Waukegan, IL": {
+      "Arlington Heights, IL": 30.05,
+      "Evanston, IL": 28.05
+    },
+    "Champaign, IL": {
+      "Kankakee, IL": 77.88,
+      "Bloomington, IL": 50.78,
+      "Decatur, IL": 47.15
+    },
+    "Bloomington, IL": {
+      "Joliet, IL": 95.12,
+      "Peoria, IL": 39.58,
+      "Champaign, IL": 50.78,
+      "Decatur, IL": 45.63,
+      "Springfield, IL": 65.77
+    },
+    "Decatur, IL": {
+      "Bloomington, IL": 45.63,
+      "Springfield, IL": 38.71,
+      "Champaign, IL": 47.15
+    },
+    "Evanston, IL": {
+      "Chicago, IL": 14.1,
+      "Skokie, IL": 4.98,
+      "Waukegan, IL": 28.05
+    },
+    "Schaumburg, IL": {
+      "Palatine, IL": 7.01,
+      "Elgin, IL": 14.5,
+      "Naperville, IL": 26.31
+    },
+    "Arlington Heights, IL": {
+      "Des Plaines, IL": 5.76,
+      "Palatine, IL": 4.07,
+      "Waukegan, IL": 30.05
+    },
+    "Bolingbrook, IL": {
+      "Naperville, IL": 9.23,
+      "Joliet, IL": 13.11
+    },
+    "Palatine, IL": {
+      "Arlington Heights, IL": 4.07,
+      "Schaumburg, IL": 7.01
+    },
+    "Skokie, IL": {
+      "Chicago, IL": 14.38,
+      "Evanston, IL": 4.98,
+      "Des Plaines, IL": 7.4
+    },
+    "Des Plaines, IL": {
+      "Chicago, IL": 20.1,
+      "Skokie, IL": 7.4,
+      "Arlington Heights, IL": 5.76
+    },
+    "Orland Park, IL": {
+      "Chicago, IL": 26.33,
+      "Joliet, IL": 19.69
+    },
+    "Kankakee, IL": {
+      "Joliet, IL": 35.48,
+      "Champaign, IL": 77.88
+    },
+    "DeKalb, IL": {
+      "Elgin, IL": 35.41,
+      "Rockford, IL": 45.9,
+      "Aurora, IL": 30.59
+    }
+  }
+}
