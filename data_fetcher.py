@@ -1,27 +1,37 @@
-"""
-data_fetcher.py
-================
-Builds a connected road-network graph for a selected USA region.
-Uses:
-  - Nominatim OpenStreetMap API for geocoding (coordinates)
-  - OSRM Routing API for road driving distances
-
-Saves the resulting graph to `map_data.json`.
-"""
-
+# ── Imports ──────────────────────────────────────────────────────────────────
+# Builtin Imports
 import json
-import time
 import math
+import time
+from typing import Any, Final, Optional, TypeAlias
+
+# Third-Party Imports
 import requests
 
-# ---------------------------------------------------------
-# Configuration: Select USA Region & Locations (>= 20 cities)
-# Example Region: Illinois, USA
-# ---------------------------------------------------------
-REGION_NAME = "Illinois, USA"
+# ── Aliases ──────────────────────────────────────────────────────────────────
+LatLon: TypeAlias = tuple[float, float]
+Coordinates: TypeAlias = dict[str, float]
+Locations: TypeAlias = dict[str, Coordinates]
+Graph: TypeAlias = dict[str, dict[str, float]]
+Edge: TypeAlias = tuple[str, str]
+MapData: TypeAlias = dict[str, Any]
 
-# List of at least 20 cities/locations in the selected region
-CITIES = [
+# ── Constants ────────────────────────────────────────────────────────────────
+REGION_NAME: Final[str] = "Illinois, USA"
+OUTPUT_FILE: Final[str] = "map_data.json"
+USER_AGENT: Final[str] = \
+    "CS411-Search-Visualizer/1.0 (uic-cs411-student-project)"
+
+NOMINATIM_URL: Final[str] = "https://nominatim.openstreetmap.org/search"
+OSRM_URL: Final[str] = "http://router.project-osrm.org/route/v1/driving"
+REQUEST_TIMEOUT_SECONDS: Final[float] = 10.0
+NOMINATIM_DELAY_SECONDS: Final[float] = 1.0
+OSRM_DELAY_SECONDS: Final[float] = 0.2
+
+EARTH_RADIUS_MILES: Final[float] = 3_958.8
+MILES_PER_METER: Final[float] = 0.000_621_371
+
+CITIES: Final[list[str]] = [
     "Chicago, IL",
     "Aurora, IL",
     "Naperville, IL",
@@ -46,9 +56,7 @@ CITIES = [
     "DeKalb, IL"
 ]
 
-# Road connections between cities (Undirected graph edges)
-# Ensure the graph is fully connected (a path exists between any two cities)
-ROAD_CONNECTIONS = [
+ROAD_CONNECTIONS: Final[list[Edge]] = [
     ("Chicago, IL", "Evanston, IL"),
     ("Chicago, IL", "Skokie, IL"),
     ("Chicago, IL", "Des Plaines, IL"),
@@ -86,48 +94,54 @@ ROAD_CONNECTIONS = [
     ("Decatur, IL", "Champaign, IL")
 ]
 
-USER_AGENT = "CS411-Search-Visualizer/1.0 (uic-cs411-student-project)"
-
-
-def haversine_distance(coord1, coord2):
-    """
-    Fallback straight-line (great-circle) distance in miles.
-    coord = (lat, lon)
-    """
+# ── Distance ─────────────────────────────────────────────────────────────────
+def haversine_distance(coord1: LatLon, coord2: LatLon) -> float:
+    lat1: float
+    lon1: float
     lat1, lon1 = coord1
+
+    lat2: float
+    lon2: float
     lat2, lon2 = coord2
-    R = 3958.8  # Earth radius in miles
 
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
+    phi1: float = math.radians(lat1)
+    phi2: float = math.radians(lat2)
 
-    a = math.sin(dphi / 2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    return round(R * c, 2)
+    dphi: float = math.radians(lat2 - lat1)
+    dlambda: float = math.radians(lon2 - lon1)
 
+    a: float =                        \
+        math.sin(dphi / 2.0) ** 2.0 + \
+        math.cos(phi1) *              \
+        math.cos(phi2) *              \
+        math.sin(dlambda / 2.0) ** 2.0
 
-def fetch_coordinates(city_name):
-    """
-    Fetch latitude and longitude from Nominatim OpenStreetMap API.
-    """
-    url = "https://nominatim.openstreetmap.org/search"
-    params = {
+    c: float = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
+
+    return round(EARTH_RADIUS_MILES * c, 2)
+
+# ── API Fetching ─────────────────────────────────────────────────────────────
+def fetch_coordinates(city_name: str) -> Optional[Coordinates]:
+    params: dict[str, Any] = {
         "q": city_name,
         "format": "json",
         "limit": 1
     }
-    headers = {
-        "User-Agent": USER_AGENT
-    }
+    headers: dict[str, str] = {"User-Agent": USER_AGENT}
 
     try:
-        response = requests.get(url, params=params, headers=headers, timeout=10)
+        response: requests.Response = requests.get(
+            NOMINATIM_URL,
+            params=params,
+            headers=headers,
+            timeout=REQUEST_TIMEOUT_SECONDS
+        )
+
         if response.status_code == 200:
-            data = response.json()
+            data: Any = response.json()
             if data:
-                lat = float(data[0]["lat"])
-                lon = float(data[0]["lon"])
+                lat: float = float(data[0]["lat"])
+                lon: float = float(data[0]["lon"])
                 return {"lat": lat, "lon": lon}
     except Exception as e:
         print(f"  [Warning] Failed to fetch coordinates for {city_name}: {e}")
@@ -135,69 +149,84 @@ def fetch_coordinates(city_name):
     return None
 
 
-def fetch_road_distance(coord1, coord2):
-    """
-    Fetch road driving distance in miles from OSRM Routing API.
-    coord = (lat, lon)
-    """
+def fetch_road_distance(coord1: LatLon, coord2: LatLon) -> float:
+    lat1: float
+    lon1: float
     lat1, lon1 = coord1
+
+    lat2: float
+    lon2: float
     lat2, lon2 = coord2
-    url = f"http://router.project-osrm.org/route/v1/driving/{lon1},{lat1};{lon2},{lat2}"
-    params = {"overview": "false"}
+
+    url: str = f"{OSRM_URL}/{lon1},{lat1};{lon2},{lat2}"
+    params: dict[str, str] = {"overview": "false"}
 
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response: requests.Response = requests.get(
+            url,
+            params=params,
+            timeout=REQUEST_TIMEOUT_SECONDS
+        )
+
         if response.status_code == 200:
-            data = response.json()
+            data: Any = response.json()
             if data.get("code") == "Ok" and len(data.get("routes", [])) > 0:
-                distance_meters = data["routes"][0]["distance"]
-                distance_miles = distance_meters * 0.000621371
+                distance_meters: float = data["routes"][0]["distance"]
+                distance_miles: float = distance_meters * MILES_PER_METER
                 return round(distance_miles, 2)
     except Exception as e:
         print(f"  [Warning] OSRM routing failed ({coord1} -> {coord2}): {e}")
 
-    # Fallback to straight-line distance if routing API fails
     return haversine_distance(coord1, coord2)
 
-
-def build_graph():
-    """
-    Build the map graph and save to map_data.json.
-    """
+# ── Graph Construction ───────────────────────────────────────────────────────
+def build_graph() -> None:
     print(f"Building map graph for region: {REGION_NAME}")
     print(f"Total locations to geocode: {len(CITIES)}")
 
-    locations = {}
+    locations: Locations = {}
+
+    idx: int
+    city: str
     for idx, city in enumerate(CITIES, 1):
         print(f"[{idx}/{len(CITIES)}] Geocoding: {city} ...")
-        coords = fetch_coordinates(city)
-        if coords:
-            locations[city] = coords
-        else:
-            print(f"  [Error] Could not find coordinates for {city}")
-        # Nominatim usage policy requires 1-second delay between requests
-        time.sleep(1.0)
 
-    # Initialize adjacency list
-    graph = {city: {} for city in locations}
+        coords: Optional[Coordinates] = fetch_coordinates(city)
+        if coords: locations[city] = coords
+        else: print(f"  [Error] Could not find coordinates for {city}")
 
-    print(f"\nFetching road distances for {len(ROAD_CONNECTIONS)} connections ...")
-    total_edges = 0
+        time.sleep(NOMINATIM_DELAY_SECONDS)
+
+    graph: Graph = {city: {} for city in locations}
+
+    print(
+        f"\nFetching road distances for "
+        f"{len(ROAD_CONNECTIONS)} connections ..."
+    )
+    total_edges: int = 0
+
+    u: str
+    v: str
     for u, v in ROAD_CONNECTIONS:
-        if u in locations and v in locations:
-            c1 = (locations[u]["lat"], locations[u]["lon"])
-            c2 = (locations[v]["lat"], locations[v]["lon"])
-            dist = fetch_road_distance(c1, c2)
+        if u not in locations or v not in locations:
+            print(
+                f"  [Warning] Skipping edge ({u}, {v}) - "
+                f"missing location coordinates."
+            )
+            continue
 
-            graph[u][v] = dist
-            graph[v][u] = dist
-            total_edges += 1
-            print(f"  Connection: {u} <---> {v} : {dist} miles")
-            time.sleep(0.2)
-        else:
-            print(f"  [Warning] Skipping edge ({u}, {v}) - missing location coordinates.")
+        c1: LatLon = (locations[u]["lat"], locations[u]["lon"])
+        c2: LatLon = (locations[v]["lat"], locations[v]["lon"])
+        dist: float = fetch_road_distance(c1, c2)
 
-    map_data = {
+        graph[u][v] = dist
+        graph[v][u] = dist
+        total_edges += 1
+
+        print(f"  Connection: {u} <---> {v} : {dist} miles")
+        time.sleep(OSRM_DELAY_SECONDS)
+
+    map_data: MapData = {
         "region": REGION_NAME,
         "total_cities": len(locations),
         "total_edges": total_edges,
@@ -205,12 +234,14 @@ def build_graph():
         "graph": graph
     }
 
-    with open("map_data.json", "w") as f:
+    with open(OUTPUT_FILE, "w") as f:
         json.dump(map_data, f, indent=2)
 
     print("\nGraph construction complete!")
-    print(f"Saved to map_data.json with {len(locations)} cities and {total_edges} connections.")
+    print(
+        f"Saved to {OUTPUT_FILE} with {len(locations)} cities "
+        f"and {total_edges} connections."
+    )
 
-
-if __name__ == "__main__":
-    build_graph()
+# ── Entry Point ──────────────────────────────────────────────────────────────
+if __name__ == "__main__": build_graph()
