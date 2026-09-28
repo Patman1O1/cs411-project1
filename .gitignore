@@ -14,4 +14,4 @@ AI_search_autograder/
 AI_searcher_autograder/
 .github/
 .pytest_cache/
-requirements.txt
+#requirements.txt
