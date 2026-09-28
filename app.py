@@ -62,8 +62,6 @@ ALGORITHMS: Final[dict[str, Runner]] = {
     "greedy": lambda s, g, opts: greedy_best_first(GRAPH, LOCATIONS, s, g),
     "astar": lambda s, g, opts: astar(GRAPH, LOCATIONS, s, g)
 }
-ALGORITHMS["sma"] = ALGORITHMS["memory_bounded"]
-ALGORITHMS["smastar"] = ALGORITHMS["memory_bounded"]
 
 ALGORITHM_NAMES: Final[dict[str, str]] = {
     "bfs": "Breadth-First Search",
