@@ -29,12 +29,12 @@
 
 ## Section 3: Local Verification & Search Algorithms
 *Check the algorithms you successfully ran and verified on your local development server by placing an `x` in the brackets (e.g., `[x]`):*
-- [ ] Breadth-First Search (BFS)
-- [ ] Depth-First Search (DFS)
-- [ ] Uniform Cost Search (UCS)
-- [ ] Iterative Deepening Search (IDS)
-- [ ] Greedy Best-First Search (Greedy)
-- [ ] A* Search (A*)
+- [x] Breadth-First Search (BFS)
+- [x] Depth-First Search (DFS)
+- [x] Uniform Cost Search (UCS)
+- [x] Iterative Deepening Search (IDS)
+- [x] Greedy Best-First Search (Greedy)
+- [x] A* Search (A*)
 
 ---
 
