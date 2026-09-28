@@ -105,20 +105,6 @@ const ALGO_CONCEPTS = Object.freeze({
             "because h never overestimates road distance (admissible and " +
             "consistent)."
     },
-    "memory_bounded": {
-        main:
-            "Runs A* with a fixed cap on stored nodes. When memory is full " +
-            "it forgets the worst leaf, but saves that leaf's f-value in " +
-            "its parent so the branch can be regenerated later.",
-        selection:
-            "Expands the deepest node with the lowest f(n) = g(n) + h(n); " +
-            "when memory is full, drops the shallowest node with the " +
-            "highest f(n).",
-        info:
-            "Path cost g(n), heuristic h(n), backed-up f-values of " +
-            "forgotten nodes, and the memory limit. Optimal only if the " +
-            "optimal path fits in memory."
-    }
 });
 
 /** @type {string} */
