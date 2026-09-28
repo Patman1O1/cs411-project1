@@ -21,9 +21,9 @@
 ---
 
 ## Section 2: Map Graph Configuration
-- **Total Cities Configured:** [Write total number of cities here, must be 20 or more]
-- **Total Connection Edges:** [Write total number of highway connection edges here]
-- **Graph Fully Connected:** [Write Yes or No here]
+- **Total Cities Configured:** 22
+- **Total Connection Edges:** 35
+- **Graph Fully Connected:** Yes
 
 ---
 
