@@ -17,8 +17,7 @@
 ---
 
 ## Section 1: Selected City Region
-- **Selected Region:** [Write your selected region here (must be a USA-based region, e.g., a US state or city region)]
-
+- **Selected Region:** Illinois, USA
 ---
 
 ## Section 2: Map Graph Configuration
