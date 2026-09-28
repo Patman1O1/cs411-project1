@@ -10,9 +10,9 @@
 ---
 
 ## Student Information 
-- **Name:** [Write your Name here]
-- **UID (netID):** [Write your UID (netID) here]
-- **UIN:** [Write your UIN here]
+- **Name:** Patrick
+- **UID (netID):** Thomas
+- **UIN:** 677959526
 
 ---
 
