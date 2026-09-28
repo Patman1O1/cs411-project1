@@ -11,7 +11,7 @@ from flask import Flask, Response, jsonify, render_template, request
 from flask.typing import ResponseReturnValue
 
 # Local Imports
-from informed import DEFAULT_MEMORY_LIMIT, astar, greedy_best_first, sma_star
+from informed import DEFAULT_MEMORY_LIMIT, astar, greedy_best_first
 from uninformed import bfs, dfs, ids, ucs
 
 # ── Aliases ──────────────────────────────────────────────────────────────────
@@ -60,14 +60,7 @@ ALGORITHMS: Final[dict[str, Runner]] = {
     "ucs": lambda s, g, opts: ucs(GRAPH, s, g),
     "ids": lambda s, g, opts: ids(GRAPH, s, g),
     "greedy": lambda s, g, opts: greedy_best_first(GRAPH, LOCATIONS, s, g),
-    "astar": lambda s, g, opts: astar(GRAPH, LOCATIONS, s, g),
-    "memory_bounded": lambda s, g, opts: sma_star(
-        GRAPH,
-        LOCATIONS,
-        s,
-        g,
-        memory_limit=opts["memory_limit"]
-    )
+    "astar": lambda s, g, opts: astar(GRAPH, LOCATIONS, s, g)
 }
 ALGORITHMS["sma"] = ALGORITHMS["memory_bounded"]
 ALGORITHMS["smastar"] = ALGORITHMS["memory_bounded"]
@@ -78,8 +71,7 @@ ALGORITHM_NAMES: Final[dict[str, str]] = {
     "ucs": "Uniform-Cost Search",
     "ids": "Iterative Deepening Search",
     "greedy": "Greedy Best-First Search",
-    "astar": "A* Search",
-    "memory_bounded": "Simplified Memory-Bounded A* (SMA*)"
+    "astar": "A* Search"
 }
 
 # ── Flask App ────────────────────────────────────────────────────────────────
