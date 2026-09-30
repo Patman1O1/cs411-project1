@@ -46,9 +46,51 @@
 ---
 
 ## Section 5: Discussion
-- **Which search algorithm is best for this route finding problem?** 
-    [Write your answer here]
-- **Search Efficiency (Nodes expanded/time taken comparison):** [Write your answer here comparing search efficiency in terms of number of nodes visited and runtime across different algorithms]
+- **Which search algorithm is best for this route finding problem?** From Rockford IL, to Champaign, IL, A-Star Search is the best search algorithm. All algorithms with their respected costs and paths are list below from best to worst.
+*A-Star Search*
+Cost: 212.33 miles
+Edges: 5
+Nodes Expanded: 12
+Path: Rockford, IL -> DeKalb, IL -> Aurora, IL -> Joliet, IL -> Kankakee, IL -> Champaign, IL
+
+*UCS*
+Cost: 212.33 miles
+Edges: 5
+Nodes Expanded: 20
+Path: Rockford, IL -> DeKalb, IL -> Aurora, IL -> Joliet, IL -> Kankakee, IL -> Champaign, IL
+
+*Greedy Best-First Search*
+Cost: 231.07 miles
+Edges: 3
+Nodes Expanded: 4
+Path: Rockford, IL -> Peoria, IL -> Bloomington, IL -> Champaign, IL
+
+*BFS*
+Cost: 231.07 miles
+Edges: 3
+Nodes Expanded: 7
+Path: Rockford, IL -> Peoria, IL -> Bloomington, IL -> Champaign, IL
+
+*IDS*
+Cost: 231.07 miles
+Edges: 3
+Nodes Expanded: 31
+Path: Rockford, IL -> Peoria, IL -> Bloomington, IL -> Champaign, IL
+
+*DFS*
+Cost: 244.87 miles
+Edges: 5
+Nodes Expanded: 6
+Path: Rockford, IL -> DeKalb, IL -> Aurora, IL -> Joliet, IL -> Bloomington, IL -> Champaign, IL
+
+- **Search Efficiency (Nodes expanded/time taken comparison):** The results below are from "benchmark_results.txt" which is the output of "benchmark.py" which was ran locally on my machine. They are listed in decreasing order of time efficiency (so best is first and worst is last).
+BFS    Avg Nodes: 6.8  Max Nodes: 19  Time: 4.4 µs
+DFS    Avg Nodes: 12.0 Max Nodes: 22  Time: 7.8 µs
+UCS    Avg Nodes: 12.0 Max Nodes: 22  Time: 10.1 µs
+Greedy Avg Nodes: 4.3  Max Nodes: 11  Time: 11.0 µs
+IDS    Avg Nodes: 39.2 Max Nodes: 297 Time: 13.5 µs
+A*     Avg Nodes: 6.6  Max Nodes: 19  Time: 14.5 µs
+
 - **Link the idea of search algorithm to today Generative AI.** 
     [Write your answer here]
 
