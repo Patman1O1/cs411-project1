@@ -41,7 +41,7 @@
 ## Section 4: Deployed and Presentation Information
 - **Deployment Platform:** Render
 - **Live Deployment URL:** https://cs411-project1-rxqc.onrender.com
-- **Video Presentation Link:** [Provide an accessible link to your 5–7 minute video presentation]
+- **Video Presentation Link:** https://drive.google.com/file/d/1q4HLJgW9csUPZZu-ZRnRLG97_TOlKhrX/view?usp=sharing
 
 ---
 
